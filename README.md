@@ -1,3 +1,32 @@
+# Refactoring Plan
+
+## Chat with author
+
+...
+
+## Test the original code
+
+1. Train your own network
+2. Interpret prediction 
+3. Understand dataset
+4. Understand network architecture
+
+## Make a plan scatch after scanning through the code
+
+1. Determine what software structure to use: MVC.
+2. How to manange (e.g. download, extract) large dataset and trained model: shell script.
+3. Portability: YES, use dander init to create package.
+
+## Package layout
+
+Ensai -----
+        |--- data
+        |--- model
+        |--- script
+        |--- config
+        |--- trainer
+        |--- tester
+        
 # Ensai: Lensing with Artificial Intelligence 
 Estimating parameters of strong gravitational lenses with convolutional neural networks.
 
