@@ -18,15 +18,15 @@
 3. Portability: YES, use dander init to create package.
 
 ## Package layout
-
+```
 Ensai -----
-
         |--- data
         |--- model
         |--- script
         |--- config
         |--- trainer
         |--- tester
+```
         
 # Ensai: Lensing with Artificial Intelligence 
 Estimating parameters of strong gravitational lenses with convolutional neural networks.
