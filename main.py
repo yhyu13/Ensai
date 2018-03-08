@@ -1,24 +1,29 @@
-
-from PIL import Image
-import tensorflow as tf
-import tensorflow.contrib.slim as silm
-import scipy.ndimage
-from scipy import misc
-from scipy.interpolate import RectBivariateSpline
-import numpy as np
-import numpy.matlib as ml
-import random
-import time
-import os
-import gc
-import scipy.io
-
 from dataset import *
-from config import *
 from network import *
 
-'''
-   TODO: 1.add argparser in config.py
-         2.train.py
-         3..*prediction.*.py
-'''
+import argparse
+
+
+def train():
+    execfile('train.py')
+
+
+def sig_predict():
+    execfile('single_model_prediction.py')
+
+
+def combo_predict():
+    execfile('combo_prediction.py')
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description="Define subroutine.")
+    parser.addArgument('--func', type=str,
+                       help="""Select from 'train','sig_predict,'combo_predict' """)
+    FLAGS = parser.parse_args()
+
+    functions = {'train': lambda: train,
+                 'sig_predict': lambda: sig_predict,
+                 'combo_predict': lambda: combo_predict}
+
+    functions[FLAGS.func]()
