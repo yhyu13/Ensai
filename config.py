@@ -46,18 +46,18 @@ min_unmasked_flux = 0.75
 # number of folders containing training or test data. If all 3 point to the same folder that's OK (only that folder will be used).
 num_data_dirs = 3
 
-num_training_samples = 100000
-max_num_test_samples = 1000
-arcs_data_path_1 = 'data/SAURON_TEST/'
-arcs_data_path_2 = 'data/SAURON_TEST/'
-arcs_data_path_3 = 'data/SAURON_TEST/'
+num_training_samples = 50000
+max_num_test_samples = 10000
+arcs_data_path_1 = 'data/ARCS_2/ARCS_2/'
+arcs_data_path_2 = 'data/ARCS_2/ARCS_2/'
+arcs_data_path_3 = 'data/ARCS_2/ARCS_2/'
 test_data_path_1 = 'data/SAURON_TEST/'
 test_data_path_2 = 'data/SAURON_TEST/'
 test_data_path_3 = 'data/SAURON_TEST/'
 
-lens_data_path_1 = 'data/SAURON_TEST/'
-lens_data_path_2 = 'data/SAURON_TEST/'
-lens_data_path_3 = 'data/SAURON_TEST/'
+lens_data_path_1 = 'data/ARCS_2/ARCS_2/'
+lens_data_path_2 = 'data/ARCS_2/ARCS_2/'
+lens_data_path_3 = 'data/ARCS_2/ARCS_2/'
 testlens_data_path_1 = 'data/SAURON_TEST/'
 testlens_data_path_2 = 'data/SAURON_TEST/'
 testlens_data_path_3 = 'data/SAURON_TEST/'

@@ -41,8 +41,6 @@ train_pars = variables_to_save  #list of parameters to train
 save_file =  "data/trained_weights/model_" + str(model_num) + ".ckpt"     #path of file to save
 restore_file = save_file   #path of network weights file to restore from
 
-RESTORE = True
-SAVE = False
 restorer = tf.train.Saver(variables_to_restore)
 saver = tf.train.Saver(variables_to_save)
 
