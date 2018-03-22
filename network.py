@@ -1,4 +1,5 @@
 from model.ensai_model import *
+import os
 
 y_mod = []
 with tf.variable_scope("ENSAI"):
@@ -36,7 +37,8 @@ variables_to_save =  slim.get_variables(scope="ENSAI/EN_Model" + str(model_num) 
 variables_to_restore = variables_to_save   #list of variables to restore (same as save here)
 train_pars = variables_to_save  #list of parameters to train
 
-
+if not os.path.exists("data/trained_weights"):
+    os.makedirs("data/trained_weights")
 
 save_file =  "data/trained_weights/model_" + str(model_num) + ".ckpt"     #path of file to save
 restore_file = save_file   #path of network weights file to restore from

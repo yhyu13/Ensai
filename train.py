@@ -1,4 +1,5 @@
-
+from util import eprint
+import tensorflow as tf
 
 ############### OPTIMIZER:
 learning_rate = 1e-6
@@ -23,25 +24,21 @@ MAG_test = np.zeros((num_test_samples,1), dtype='float32' );
 max_noise_rms = max_testnoise_rms
 read_data_batch( X_test , Y_test , MAG_test , max_num_test_samples , 'test' )
 
-
-
-
 sess = tf.Session()
 sess.run(tf.global_variables_initializer())
 
-if RESTORE:
-        restorer.restore(sess, restore_file)
-
-
+try:
+    restorer.restore(sess, restore_file)
+except tf.errors.NotFoundError:
+    eprint("Checkpoint file not found. Continue training.")
+    log_file = open("log_file.txt","w")
+    log_file.close()
 
 n = 0
 ind_t = range(num_test_samples)
 train_cost = 0
 write_time = time.time()
 start_time = time.time()
-
-log_file = open("log_file.txt","w")
-log_file.close()
 
 for i_sample in range(1000000):
         if i_sample%1 == 0:
@@ -60,9 +57,6 @@ for i_sample in range(1000000):
 
                 xA = X[ind]
                 yA = Y[ind]
-
-
-
 
 		# once every 20 iterations evaluate things for the validation set.
                 print_per = 20
@@ -87,7 +81,7 @@ for i_sample in range(1000000):
                         print("                                         %0.4d    %0.4d    %0.5f    %0.5f    %0.5f   %0.3f"%(i_sample,i,train_cost,eval_cost,min_eval_cost,(time.time()-start_time)/print_per)) 
                         start_time = time.time()
                         log_file = open("log_file.txt","a")
-                        log_file.write('%d ' % (i_sample) + ' '.join(map(str,sum_rms/num_chunks)) + ' %0.5f %0.5f\n' % (train_cost,eval_cost) )
+                        log_file.write('%d ' % (i_sample) + ' '.join(map(str,[round(r,5) for r in sum_rms/num_chunks])) + ' %0.3f %0.3f\n' % (train_cost,eval_cost) )
                         log_file.close()
                         if  SAVE & (eval_cost<min_eval_cost) & (n>20): # save file when validation cost drops
                                 print "saving weights to the disk (eval) ..."

@@ -2,7 +2,7 @@ from config import *
 
 Y_all_train = [[], [], []]
 Y_all_test = [[], [], []]
-'''
+
 Y_all_train[0] = np.loadtxt(arcs_data_path_1 + 'parameters_train.txt')
 Y_all_test[0] = np.loadtxt(test_data_path_1 + 'parameters_test.txt')
 
@@ -15,7 +15,7 @@ Y_all_test[2] = np.loadtxt(test_data_path_3 + 'parameters_test.txt')
 
 R_n = np.loadtxt( 'data/PS_4_real.txt')
 I_n = np.loadtxt( 'data/PS_4_imag.txt')
-'''
+
 
 xv, yv = np.meshgrid(np.linspace(-L_side / 2.0, L_side / 2.0, num=numpix_side),
                      np.linspace(-L_side / 2.0, L_side / 2.0, num=numpix_side))
