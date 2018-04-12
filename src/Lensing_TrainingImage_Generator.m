@@ -1,12 +1,13 @@
 function [IMS,PARAMS,src_pars,log_kappa] = Lensing_TrainingImage_Generator(nsample,random_seed, WRITE , test_or_train)
 
-%WRITE = 1
-%test_or_train = 'test'
+WRITE = 1
+test_or_train = 'train'
 if ~exist('WRITE','var')
     WRITE = 0;
 end
 
-
+random_seed=1
+nsample=10
 rng(random_seed)
 
 
@@ -27,9 +28,6 @@ H=100*h;
 Ds = (1e-6) * AngularDiameter(0,zSOURCE);    %in Mpc
 Dd = (1e-6) * AngularDiameter(0,zLENS);    %in Mpc
 Dds = (1e-6) * AngularDiameter(zLENS,zSOURCE);    %in Mpc
-
-
-
 
 extend_ratio = 1.6;
 
@@ -60,25 +58,26 @@ src_pars = zeros(nsample,4);
 magnification = zeros(nsample,1);
 
 % datapath = getenv('Ensai_lens_training_dataset_path');
-datapath = [getenv('LOCAL_SCRATCH') '/SAURON/ARCS_2/'];
-galaxy_image_path = [getenv('LOCAL_SCRATCH') '/Small_Galaxy_Zoo/'];
+datapath = ['../data/SAURON/ARCS_2/'];
+galaxy_image_path = ['../data/Small_Galaxy_Zoo/'];
 mkdir(datapath)
 file_list = ls(galaxy_image_path);
-file_names = strsplit(file_list);
-file_names = sortrows(file_names.',1);
-file_names(1)=[];
+file_list = cellstr(file_list);
+file_names = file_list(3:end);
 n_GalZoo_sample = numel(file_names);
 file_inds = 1:numel(file_names);
 src_numpix = 212;
 n_source_sample = n_GalZoo_sample;
 
+%disp(n_source_sample);
 %load([getenv('SCRATCH') '/GREAT_gal_ims.mat'],'gal_ims');
 %n_source_sample = numel(gal_ims);
-
-disp('loading...')
-load([getenv('LOCAL_SCRATCH') '/GREAT_IMS30.mat'],'GREAT_IMS');
-n_source_sample = size(GREAT_IMS,1)
-disp('done')
+src_numpix = 212;
+%disp('loading...')
+%load([getenv('LOCAL_SCRATCH') '/GREAT_IMS30.mat'],'GREAT_IMS');
+%GREAT_IMS = load('GREAT_IMS30.mat')
+%n_source_sample = size(GREAT_IMS,1)
+%disp('done')
 
 [xsrc , ysrc] = meshgrid(linspace(-1,1,src_numpix).*pi./180./3600);
 rfilt = sqrt(xsrc.^2+ysrc.^2);
@@ -183,7 +182,6 @@ for i = 1:nsample
         
     end
     
-    
     src_pars(i,:) = [image_ind xsource(i) ysource(i) size_scale];
     
     
@@ -197,12 +195,12 @@ for i = 1:nsample
     %temp_src_im = clumpy_source(COORDS(:,1),COORDS(:,2),0.01+rand(1,Nclump).*0.1,src_numpix,2.0,rand(1,Nclump));
     %rng(scurr)
 
-    temp_src_im = GREAT_IMS{image_ind};
+    temp_src_im = double(imread([galaxy_image_path file_names{file_inds(image_ind)}]))./255;
+    %temp_src_im = GREAT_IMS{image_ind};
     imindx = ceil( rand(1) * size(temp_src_im,3) );
     temp_src_im = temp_src_im(:,:,imindx);
 
     %temp_src_im = gal_ims{image_ind};
-    %temp_src_im = double(imread([galaxy_image_path file_names{file_inds(image_ind)}]))./255;
     temp_src_im = imresize(temp_src_im,[src_numpix src_numpix]);
     temp_src_im = temp_src_im./max(temp_src_im(:));
     source_image = temp_src_im .* taper;
